@@ -1,0 +1,22 @@
+@Metadata.layer: #CUSTOMER
+@UI.headerInfo: {
+  typeName: '承認対象',
+  typeNamePlural: '自分の承認対象',
+  title: { type: #STANDARD, value: 'RequestNo' },
+  description: { type: #STANDARD, value: 'Subject' }
+}
+annotate view ZC_SA_AP_INBOX with
+{
+  @UI.lineItem: [ { position: 10, type: #WITH_NAVIGATION_PATH, targetElement: '_Request' } ]
+  @UI.selectionField: [ { position: 10 } ]
+  RequestNo;
+  @UI.lineItem: [ { position: 20 } ]
+  Subject;
+  @UI.lineItem: [ { position: 30 } ]
+  @UI.selectionField: [ { position: 20 } ]
+  FunctionID;
+  @UI.lineItem: [ { position: 40 } ]
+  RequesterUser;
+  @UI.lineItem: [ { position: 50 } ]
+  SubmittedAt;
+}

@@ -1,0 +1,78 @@
+managed implementation in class ZBP_I_SA_GM_DOC unique;
+strict ( 2 );
+
+define behavior for ZI_SA_GM_DOC alias Document
+persistent table zsa_gm_hdr
+lock master
+etag master LocalLastChangedAt
+authorization master ( global, instance )
+{
+  create;
+  update ( features : instance );
+  delete ( features : instance );
+
+  field ( numbering : managed, readonly ) DocumentUUID;
+  field ( readonly ) DocumentNo, Status, ApprovalUUID,
+                     MaterialDocument, MaterialDocumentYear, PostingMessage,
+                     CreatedBy, CreatedAt, LocalLastChangedBy,
+                     LocalLastChangedAt, LastChangedAt;
+  field ( mandatory ) ProcessType, PostingDate, DocumentDate;
+
+  association _Item { create; }
+
+  determination initialize on modify { create; }
+  validation validateHeader on save { create; update; }
+  action ( features : instance ) StartApproval
+    parameter ZSA_AP_START result [1] $self;
+
+  mapping for zsa_gm_hdr {
+    DocumentUUID         = document_uuid;
+    DocumentNo           = document_no;
+    ProcessType          = process_type;
+    Status               = status;
+    PostingDate          = posting_date;
+    DocumentDate         = document_date;
+    HeaderText           = header_text;
+    ApprovalUUID         = approval_uuid;
+    MaterialDocument     = material_document;
+    MaterialDocumentYear = material_document_year;
+    PostingMessage       = posting_message;
+    CreatedBy            = created_by;
+    CreatedAt            = created_at;
+    LocalLastChangedBy   = local_last_changed_by;
+    LocalLastChangedAt   = local_last_changed_at;
+    LastChangedAt        = last_changed_at;
+  }
+}
+
+define behavior for ZI_SA_GM_ITEM alias Item
+persistent table zsa_gm_itm
+lock dependent by _Document
+authorization dependent by _Document
+{
+  update;
+  delete;
+  field ( numbering : managed, readonly ) ItemUUID;
+  field ( readonly ) DocumentUUID, LocalLastChangedAt;
+  field ( mandatory ) ItemNo, Material, Plant, GoodsMovementType, Quantity, BaseUnit;
+  association _Document;
+  validation validateItem on save { create; update; }
+
+  mapping for zsa_gm_itm {
+    ItemUUID           = item_uuid;
+    DocumentUUID       = document_uuid;
+    ItemNo             = item_no;
+    Material           = material;
+    Plant              = plant;
+    StorageLocation    = storage_location;
+    GoodsMovementType  = goods_movement_type;
+    Quantity           = quantity;
+    BaseUnit           = base_unit;
+    PurchaseOrder      = purchase_order;
+    PurchaseOrderItem  = purchase_order_item;
+    CostCenter         = cost_center;
+    OrderID            = order_id;
+    ItemText           = item_text;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

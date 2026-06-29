@@ -1,0 +1,9 @@
+CLASS zbp_i_sa_ap_request DEFINITION
+  PUBLIC
+  ABSTRACT
+  FINAL
+  FOR BEHAVIOR OF zi_sa_ap_request.
+ENDCLASS.
+
+CLASS zbp_i_sa_ap_request IMPLEMENTATION.
+ENDCLASS.

@@ -1,0 +1,43 @@
+@Metadata.layer: #CUSTOMER
+@UI.headerInfo: {
+  typeName: '承認申請',
+  typeNamePlural: '承認申請',
+  title: { type: #STANDARD, value: 'RequestNo' },
+  description: { type: #STANDARD, value: 'Subject' }
+}
+annotate view ZC_SA_AP_REQUEST with
+{
+  @UI.facet: [
+    { id: 'Request', type: #IDENTIFICATION_REFERENCE, label: '申請情報', position: 10 },
+    { id: 'Route', type: #LINEITEM_REFERENCE, label: '承認ルート', position: 20, targetElement: '_WorkItem' }
+  ]
+  @UI.lineItem: [
+    { position: 10 },
+    { type: #FOR_ACTION, dataAction: 'Submit', label: '申請' },
+    { type: #FOR_ACTION, dataAction: 'Approve', label: '承認' },
+    { type: #FOR_ACTION, dataAction: 'Reject', label: '却下' }
+  ]
+  @UI.identification: [
+    { position: 10 },
+    { type: #FOR_ACTION, dataAction: 'Submit', label: '申請' },
+    { type: #FOR_ACTION, dataAction: 'Approve', label: '承認' },
+    { type: #FOR_ACTION, dataAction: 'Reject', label: '却下' }
+  ]
+  RequestNo;
+  @UI.lineItem: [ { position: 20 } ]
+  @UI.identification: [ { position: 20 } ]
+  Subject;
+  @UI.lineItem: [ { position: 30 } ]
+  @UI.identification: [ { position: 30 } ]
+  Status;
+  @UI.identification: [ { position: 40 } ]
+  FunctionID;
+  @UI.identification: [ { position: 50 } ]
+  ApprovalPattern;
+  @UI.identification: [ { position: 60 } ]
+  RequesterUser;
+  @UI.identification: [ { position: 70 } ]
+  RequesterCostCenter;
+  @UI.identification: [ { position: 80 } ]
+  RequestNote;
+}

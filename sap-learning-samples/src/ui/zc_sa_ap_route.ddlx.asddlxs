@@ -1,0 +1,37 @@
+@Metadata.layer: #CUSTOMER
+@UI.headerInfo: {
+  typeName: '承認ルート',
+  typeNamePlural: '承認ルート',
+  title: { type: #STANDARD, value: 'RouteID' }
+}
+annotate view ZC_SA_AP_ROUTE with
+{
+  @UI.lineItem: [ { position: 10 } ]
+  @UI.identification: [ { position: 10 } ]
+  @UI.selectionField: [ { position: 10 } ]
+  RouteID;
+  @UI.lineItem: [ { position: 20 } ]
+  @UI.identification: [ { position: 20 } ]
+  @UI.selectionField: [ { position: 20 } ]
+  FunctionID;
+  @UI.lineItem: [ { position: 30 } ]
+  @UI.identification: [ { position: 30 } ]
+  ApprovalPattern;
+  @UI.lineItem: [ { position: 40 } ]
+  @UI.identification: [ { position: 40 } ]
+  RequesterUser;
+  @UI.lineItem: [ { position: 50 } ]
+  @UI.identification: [ { position: 50 } ]
+  RequesterCostCenter;
+  @UI.lineItem: [ { position: 60 } ]
+  @UI.identification: [ { position: 60 } ]
+  SequenceNo;
+  @UI.lineItem: [ { position: 70 } ]
+  @UI.identification: [ { position: 70 } ]
+  ApproverUser;
+  @UI.lineItem: [ { position: 80 } ]
+  @UI.identification: [ { position: 80 } ]
+  ApproverName;
+  @UI.lineItem: [ { position: 90 } ]
+  IsActive;
+}

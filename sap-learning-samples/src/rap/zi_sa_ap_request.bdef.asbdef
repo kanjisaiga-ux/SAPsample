@@ -1,0 +1,76 @@
+managed implementation in class ZBP_I_SA_AP_REQUEST unique;
+strict ( 2 );
+
+define behavior for ZI_SA_AP_REQUEST alias Request
+persistent table zsa_ap_req
+lock master
+etag master LocalLastChangedAt
+authorization master ( global, instance )
+{
+  create;
+  update ( features : instance );
+  delete ( features : instance );
+
+  field ( numbering : managed, readonly ) RequestUUID;
+  field ( readonly ) RequestNo, Status, CurrentSequence, RequesterUser,
+                     RequesterCostCenter, SubmittedAt, CompletedAt,
+                     CreatedBy, CreatedAt, LocalLastChangedBy,
+                     LocalLastChangedAt, LastChangedAt;
+  field ( mandatory ) SourceUUID, FunctionID, ApprovalPattern, CallbackID, Subject;
+
+  association _WorkItem { create; }
+
+  determination initialize on modify { create; }
+  determination proposeRoute on modify { create; field FunctionID, ApprovalPattern; }
+  validation validateRequest on save { create; update; }
+  action ( features : instance ) Submit result [1] $self;
+  action ( features : instance ) Approve parameter ZSA_AP_COMMENT result [1] $self;
+  action ( features : instance ) Reject parameter ZSA_AP_COMMENT result [1] $self;
+
+  mapping for zsa_ap_req {
+    RequestUUID          = request_uuid;
+    RequestNo            = request_no;
+    SourceUUID           = source_uuid;
+    FunctionID           = function_id;
+    ApprovalPattern      = approval_pattern;
+    CallbackID           = callback_id;
+    Status               = status;
+    CurrentSequence      = current_sequence;
+    RequesterUser        = requester_user;
+    RequesterCostCenter  = requester_cost_center;
+    Subject              = subject;
+    RequestNote          = request_note;
+    SubmittedAt          = submitted_at;
+    CompletedAt          = completed_at;
+    CreatedBy            = created_by;
+    CreatedAt            = created_at;
+    LocalLastChangedBy   = local_last_changed_by;
+    LocalLastChangedAt   = local_last_changed_at;
+    LastChangedAt        = last_changed_at;
+  }
+}
+
+define behavior for ZI_SA_AP_WORK alias WorkItem
+persistent table zsa_ap_work
+lock dependent by _Request
+authorization dependent by _Request
+{
+  update;
+  delete;
+  field ( numbering : managed, readonly ) WorkUUID;
+  field ( readonly ) RequestUUID, Status, ActionAt, LocalLastChangedAt;
+  field ( mandatory ) SequenceNo, ApproverUser;
+  association _Request;
+
+  mapping for zsa_ap_work {
+    WorkUUID          = work_uuid;
+    RequestUUID       = request_uuid;
+    SequenceNo        = sequence_no;
+    ApproverUser      = approver_user;
+    ApproverName      = approver_name;
+    Status            = status;
+    ActionAt          = action_at;
+    ActionComment     = action_comment;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

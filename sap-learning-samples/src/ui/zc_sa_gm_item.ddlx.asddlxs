@@ -1,0 +1,24 @@
+@Metadata.layer: #CUSTOMER
+annotate view ZC_SA_GM_ITEM with
+{
+  @UI.lineItem: [ { position: 10 } ]
+  ItemNo;
+  @UI.lineItem: [ { position: 20 } ]
+  Material;
+  @UI.lineItem: [ { position: 30 } ]
+  Plant;
+  @UI.lineItem: [ { position: 40 } ]
+  StorageLocation;
+  @UI.lineItem: [ { position: 50 } ]
+  GoodsMovementType;
+  @UI.lineItem: [ { position: 60 } ]
+  Quantity;
+  @UI.lineItem: [ { position: 70 } ]
+  BaseUnit;
+  @UI.lineItem: [ { position: 80 } ]
+  PurchaseOrder;
+  @UI.lineItem: [ { position: 90 } ]
+  PurchaseOrderItem;
+  @UI.lineItem: [ { position: 100 } ]
+  CostCenter;
+}

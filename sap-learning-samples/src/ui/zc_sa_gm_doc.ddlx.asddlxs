@@ -1,0 +1,47 @@
+@Metadata.layer: #CUSTOMER
+@UI.headerInfo: {
+  typeName: '入出庫申請',
+  typeNamePlural: '入出庫申請',
+  title: { type: #STANDARD, value: 'DocumentNo' },
+  description: { type: #STANDARD, value: 'Status' }
+}
+annotate view ZC_SA_GM_DOC with
+{
+  @UI.facet: [
+    { id: 'Header', type: #IDENTIFICATION_REFERENCE, label: '基本情報', position: 10 },
+    { id: 'Items', type: #LINEITEM_REFERENCE, label: '明細', position: 20, targetElement: '_Item' }
+  ]
+  @UI.lineItem: [
+    { position: 10 },
+    { type: #FOR_ACTION, dataAction: 'StartApproval', label: '承認申請' }
+  ]
+  @UI.identification: [
+    { position: 10 },
+    { type: #FOR_ACTION, dataAction: 'StartApproval', label: '承認申請' }
+  ]
+  @UI.selectionField: [ { position: 10 } ]
+  DocumentNo;
+
+  @UI.lineItem: [ { position: 20 } ]
+  @UI.identification: [ { position: 20 } ]
+  @UI.selectionField: [ { position: 20 } ]
+  ProcessType;
+
+  @UI.lineItem: [ { position: 30 } ]
+  @UI.identification: [ { position: 30 } ]
+  @UI.selectionField: [ { position: 30 } ]
+  Status;
+
+  @UI.identification: [ { position: 40 } ]
+  PostingDate;
+  @UI.identification: [ { position: 50 } ]
+  DocumentDate;
+  @UI.identification: [ { position: 60 } ]
+  HeaderText;
+  @UI.identification: [ { position: 70 } ]
+  MaterialDocument;
+  @UI.identification: [ { position: 80 } ]
+  MaterialDocumentYear;
+  @UI.identification: [ { position: 90 } ]
+  PostingMessage;
+}

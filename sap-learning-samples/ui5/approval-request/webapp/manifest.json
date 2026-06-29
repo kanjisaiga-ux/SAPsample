@@ -1,0 +1,124 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "zsa.approval.request",
+    "type": "application",
+    "title": "{{appTitle}}",
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zui_sa_inv_ap_o4/srvd/sap/zui_sa_inventory_approval/0001/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "manageApprovalRequest": {
+          "semanticObject": "ZSAApprovalRequest",
+          "action": "manage",
+          "title": "{{appTitle}}",
+          "signature": {
+            "parameters": {
+              "RequestUUID": {
+                "required": false
+              },
+              "SourceUUID": {
+                "required": false
+              },
+              "FunctionID": {
+                "required": false
+              },
+              "ApprovalPattern": {
+                "required": false
+              },
+              "CallbackID": {
+                "required": false
+              }
+            },
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "models": {
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "zsa.approval.request.i18n.i18n"
+        }
+      }
+    },
+    "routing": {
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "ApprovalRequestList",
+          "target": "ApprovalRequestList"
+        },
+        {
+          "pattern": "ApprovalRequest({key}):?query:",
+          "name": "ApprovalRequestObjectPage",
+          "target": "ApprovalRequestObjectPage"
+        }
+      ],
+      "targets": {
+        "ApprovalRequestList": {
+          "type": "Component",
+          "id": "ApprovalRequestList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/ApprovalRequest",
+              "variantManagement": "Page",
+              "navigation": {
+                "ApprovalRequest": {
+                  "detail": {
+                    "route": "ApprovalRequestObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ApprovalRequestObjectPage": {
+          "type": "Component",
+          "id": "ApprovalRequestObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/ApprovalRequest"
+            }
+          }
+        }
+      }
+    }
+  }
+}

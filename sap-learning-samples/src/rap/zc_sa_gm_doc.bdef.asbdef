@@ -1,0 +1,14 @@
+projection;
+strict ( 2 );
+define behavior for ZC_SA_GM_DOC alias Document {
+  use create;
+  use update;
+  use delete;
+  use action StartApproval;
+  use association _Item { create; }
+}
+define behavior for ZC_SA_GM_ITEM alias Item {
+  use update;
+  use delete;
+  use association _Document;
+}

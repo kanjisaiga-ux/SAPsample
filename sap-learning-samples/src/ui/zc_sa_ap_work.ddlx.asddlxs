@@ -1,0 +1,14 @@
+@Metadata.layer: #CUSTOMER
+annotate view ZC_SA_AP_WORK with
+{
+  @UI.lineItem: [ { position: 10 } ]
+  SequenceNo;
+  @UI.lineItem: [ { position: 20 } ]
+  ApproverUser;
+  @UI.lineItem: [ { position: 30 } ]
+  ApproverName;
+  @UI.lineItem: [ { position: 40 } ]
+  Status;
+  @UI.lineItem: [ { position: 50 } ]
+  ActionComment;
+}

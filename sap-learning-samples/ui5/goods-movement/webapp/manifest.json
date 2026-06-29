@@ -1,0 +1,105 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "zsa.goods.movement",
+    "type": "application",
+    "title": "{{appTitle}}",
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zui_sa_inv_ap_o4/srvd/sap/zui_sa_inventory_approval/0001/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "manageGoodsMovement": {
+          "semanticObject": "ZSAGoodsMovement",
+          "action": "manage",
+          "title": "{{appTitle}}"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "models": {
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "zsa.goods.movement.i18n.i18n"
+        }
+      }
+    },
+    "routing": {
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "GoodsMovementList",
+          "target": "GoodsMovementList"
+        },
+        {
+          "pattern": "GoodsMovement({key}):?query:",
+          "name": "GoodsMovementObjectPage",
+          "target": "GoodsMovementObjectPage"
+        }
+      ],
+      "targets": {
+        "GoodsMovementList": {
+          "type": "Component",
+          "id": "GoodsMovementList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/GoodsMovement",
+              "variantManagement": "Page",
+              "navigation": {
+                "GoodsMovement": {
+                  "detail": {
+                    "route": "GoodsMovementObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "GoodsMovementObjectPage": {
+          "type": "Component",
+          "id": "GoodsMovementObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/GoodsMovement",
+              "editableHeaderContent": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

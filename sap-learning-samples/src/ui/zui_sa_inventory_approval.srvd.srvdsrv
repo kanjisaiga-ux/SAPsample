@@ -1,0 +1,9 @@
+@EndUserText.label: '入出庫・共通承認サービス'
+define service ZUI_SA_INVENTORY_APPROVAL {
+  expose ZC_SA_GM_DOC      as GoodsMovement;
+  expose ZC_SA_GM_ITEM     as GoodsMovementItem;
+  expose ZC_SA_AP_REQUEST  as ApprovalRequest;
+  expose ZC_SA_AP_WORK     as ApprovalWorkItem;
+  expose ZC_SA_AP_INBOX    as MyApprovalInbox;
+  expose ZC_SA_AP_ROUTE    as ApprovalRoute;
+}

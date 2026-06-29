@@ -1,0 +1,7 @@
+projection;
+strict ( 2 );
+define behavior for ZC_SA_AP_ROUTE alias Route {
+  use create;
+  use update;
+  use delete;
+}
