@@ -17,7 +17,7 @@ CLASS zcl_sa_gm_poster DEFINITION
         material            TYPE matnr,
         plant               TYPE werks_d,
         storage_location    TYPE lgort_d,
-        movement_type       TYPE bwart,
+        movement_type       TYPE c LENGTH 4,
         quantity            TYPE menge_d,
         base_unit           TYPE meins,
         purchase_order      TYPE ebeln,
