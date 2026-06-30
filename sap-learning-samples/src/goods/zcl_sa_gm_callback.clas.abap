@@ -28,9 +28,10 @@ CLASS zcl_sa_gm_callback IMPLEMENTATION.
 
     DATA(items) = CORRESPONDING zcl_sa_gm_poster=>tt_item(
       db_items MAPPING movement_type = goods_movement_type ).
-    result = NEW zcl_sa_gm_poster( )->post(
+    DATA(post_result) = NEW zcl_sa_gm_poster( )->post(
       header = CORRESPONDING #( header )
       items  = items ).
+    result = CORRESPONDING #( post_result ).
 
     MODIFY ENTITIES OF zi_sa_gm_doc
       ENTITY Document UPDATE FIELDS (

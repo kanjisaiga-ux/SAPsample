@@ -26,13 +26,19 @@ CLASS zcl_sa_gm_poster DEFINITION
         order_id            TYPE aufnr,
         item_text           TYPE sgtxt,
       END OF ty_item,
-      tt_item TYPE STANDARD TABLE OF ty_item WITH EMPTY KEY.
+      tt_item TYPE STANDARD TABLE OF ty_item WITH EMPTY KEY,
+      BEGIN OF ty_result,
+        success       TYPE abap_bool,
+        document_no   TYPE c LENGTH 20,
+        document_year TYPE n LENGTH 4,
+        message       TYPE c LENGTH 255,
+      END OF ty_result.
 
     METHODS post
       IMPORTING
         header TYPE ty_header
         items  TYPE tt_item
-      RETURNING VALUE(result) TYPE zif_sa_ap_callback=>ty_result.
+      RETURNING VALUE(result) TYPE ty_result.
 ENDCLASS.
 
 CLASS zcl_sa_gm_poster IMPLEMENTATION.
