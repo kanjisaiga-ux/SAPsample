@@ -286,7 +286,7 @@ CLASS lhc_request IMPLEMENTATION.
             ActionComment = COND #(
               WHEN work-ApproverUser = current_user AND
                    work-SequenceNo = request-CurrentSequence
-              THEN keys[ KEY entity %tky = request-%tky ]-%param-Comment
+              THEN keys[ KEY entity %tky = request-%tky ]-%param-ApprovalComment
               ELSE work-ActionComment ) ) ).
     ENDLOOP.
     READ ENTITIES OF zi_sa_ap_request IN LOCAL MODE
@@ -322,7 +322,7 @@ CLASS lhc_request IMPLEMENTATION.
             ActionComment = COND #(
               WHEN work-ApproverUser = current_user AND
                    work-SequenceNo = request-CurrentSequence
-              THEN keys[ KEY entity %tky = request-%tky ]-%param-Comment
+              THEN keys[ KEY entity %tky = request-%tky ]-%param-ApprovalComment
               ELSE work-ActionComment ) ) ).
 
       IF request-FunctionID = 'GOODS_MOVEMENT'.
