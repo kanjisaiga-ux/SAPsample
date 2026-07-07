@@ -14,7 +14,6 @@ define view entity ZI_SA_GM_ITEM
       goods_movement_type   as GoodsMovementType,
       @Semantics.quantity.unitOfMeasure: 'BaseUnit'
       quantity              as Quantity,
-      @Semantics.unitOfMeasure: true
       base_unit             as BaseUnit,
       purchase_order        as PurchaseOrder,
       purchase_order_item   as PurchaseOrderItem,
