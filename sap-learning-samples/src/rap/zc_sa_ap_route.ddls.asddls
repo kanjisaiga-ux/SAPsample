@@ -7,6 +7,7 @@ define root view entity ZC_SA_AP_ROUTE
   as projection on ZI_SA_AP_ROUTE
 {
   key RouteUUID,
+      @Search.defaultSearchElement: true
       RouteID,
       FunctionID,
       ApprovalPattern,
@@ -16,6 +17,7 @@ define root view entity ZC_SA_AP_ROUTE
       ValidTo,
       SequenceNo,
       ApproverUser,
+      @Search.defaultSearchElement: true
       ApproverName,
       IsActive,
       CreatedBy,

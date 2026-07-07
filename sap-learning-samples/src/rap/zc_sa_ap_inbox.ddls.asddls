@@ -11,8 +11,10 @@ define view entity ZC_SA_AP_INBOX
 {
   key Work.work_uuid          as WorkUUID,
       Request.request_uuid    as RequestUUID,
+      @Search.defaultSearchElement: true
       Request.request_no      as RequestNo,
       Request.function_id     as FunctionID,
+      @Search.defaultSearchElement: true
       Request.subject         as Subject,
       Request.requester_user  as RequesterUser,
       Request.submitted_at    as SubmittedAt,
