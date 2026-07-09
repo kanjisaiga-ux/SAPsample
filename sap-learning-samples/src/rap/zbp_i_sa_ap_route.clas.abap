@@ -6,4 +6,5 @@ CLASS zbp_i_sa_ap_route DEFINITION
 ENDCLASS.
 
 CLASS zbp_i_sa_ap_route IMPLEMENTATION.
+  " Local behavior handlers are serialized in the local implementation include.
 ENDCLASS.

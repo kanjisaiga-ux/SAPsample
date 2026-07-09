@@ -6,4 +6,5 @@ CLASS zbp_i_sa_gm_doc DEFINITION
 ENDCLASS.
 
 CLASS zbp_i_sa_gm_doc IMPLEMENTATION.
+  " Local behavior handlers are serialized in the local implementation include.
 ENDCLASS.
