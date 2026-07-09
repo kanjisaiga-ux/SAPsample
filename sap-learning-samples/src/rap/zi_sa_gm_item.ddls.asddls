@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #CHECK
+@AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '入出庫申請明細'
 define view entity ZI_SA_GM_ITEM
   as select from zsa_gm_itm

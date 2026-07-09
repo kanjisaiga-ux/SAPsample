@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #CHECK
+@AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '承認者'
 define view entity ZI_SA_AP_WORK
   as select from zsa_ap_work

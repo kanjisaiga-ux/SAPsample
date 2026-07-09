@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #CHECK
+@AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '入出庫申請'
 define root view entity ZI_SA_GM_DOC
   as select from zsa_gm_hdr

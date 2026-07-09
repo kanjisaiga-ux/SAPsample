@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #CHECK
+@AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '承認ルートマスタ'
 define root view entity ZI_SA_AP_ROUTE
   as select from zsa_ap_route

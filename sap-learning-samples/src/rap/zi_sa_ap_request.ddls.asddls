@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #CHECK
+@AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '承認申請'
 define root view entity ZI_SA_AP_REQUEST
   as select from zsa_ap_req
