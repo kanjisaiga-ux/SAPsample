@@ -1,5 +1,7 @@
 CLASS lhc_route DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
+    METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
+      IMPORTING REQUEST requested_authorizations FOR Route RESULT result.
     METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
       IMPORTING keys REQUEST requested_authorizations FOR Route RESULT result.
     METHODS validateRoute FOR VALIDATE ON SAVE
@@ -7,12 +9,28 @@ CLASS lhc_route DEFINITION INHERITING FROM cl_abap_behavior_handler.
 ENDCLASS.
 
 CLASS lhc_route IMPLEMENTATION.
+  METHOD get_global_authorizations.
+    AUTHORITY-CHECK OBJECT 'S_TABU_NAM'
+      ID 'ACTVT' FIELD '02'
+      ID 'TABLE' FIELD 'ZSA_AP_ROUTE'.
+    result-%create = COND #(
+      WHEN sy-subrc = 0 THEN if_abap_behv=>auth-allowed
+      ELSE if_abap_behv=>auth-unauthorized ).
+  ENDMETHOD.
+
   METHOD get_instance_authorizations.
+    AUTHORITY-CHECK OBJECT 'S_TABU_NAM'
+      ID 'ACTVT' FIELD '02'
+      ID 'TABLE' FIELD 'ZSA_AP_ROUTE'.
+    DATA(change_allowed) = COND #(
+      WHEN sy-subrc = 0 THEN if_abap_behv=>auth-allowed
+      ELSE if_abap_behv=>auth-unauthorized ).
+
     result = VALUE #(
       FOR key IN keys
       ( %tky = key-%tky
-        %update = if_abap_behv=>auth-allowed
-        %delete = if_abap_behv=>auth-allowed ) ).
+        %update = change_allowed
+        %delete = change_allowed ) ).
   ENDMETHOD.
 
   METHOD validateRoute.
