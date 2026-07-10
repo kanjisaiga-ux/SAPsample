@@ -5,7 +5,7 @@ define behavior for ZI_SA_AP_ROUTE alias Route
 persistent table zsa_ap_route
 lock master
 etag master LocalLastChangedAt
-authorization master ( global )
+authorization master ( instance )
 {
   create;
   update;
