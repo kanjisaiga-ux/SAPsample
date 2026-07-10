@@ -9,7 +9,7 @@ define view ZSA_TEST_CD_VH
 {
       @EndUserText.label: 'Value Help Code'
       @Search.defaultSearchElement: true
-  key cast( substring( test_cd, 1, 2 ) as zzd1fieldstatus preserving type ) as TestCd2,
+  key cast( substring( test_cd, 1, 1 ) as zze1fieldstatus preserving type ) as TestCd1,
 
       @EndUserText.label: 'Original TEST_CD'
       test_cd as OriginalTestCd,
