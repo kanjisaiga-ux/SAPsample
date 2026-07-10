@@ -1,15 +1,22 @@
 managed implementation in class ZBP_I_SA_AP_ROUTE unique;
 strict ( 2 );
+with draft;
 
 define behavior for ZI_SA_AP_ROUTE alias Route
 persistent table zsa_ap_route
-lock master
+draft table zsa_ap_route_d
+lock master total etag LocalLastChangedAt
 etag master LocalLastChangedAt
 authorization master ( global, instance )
 {
   create;
   update;
   delete;
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare { validation validateRoute; }
   field ( numbering : managed, readonly ) RouteUUID;
   field ( readonly ) CreatedBy, CreatedAt, LocalLastChangedBy,
                      LocalLastChangedAt, LastChangedAt;
