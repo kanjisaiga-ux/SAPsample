@@ -2,26 +2,33 @@
 
 ## 構成
 
-- `src/data`: アドオンテーブル
-- `src/core`: 承認状態遷移、コールバック契約
-- `src/goods`: SAP標準入出庫伝票登録アダプタ
-- `src/rap`: CDS、behavior definition、behavior implementation
-- `src/ui`: metadata extension、service definition/binding
-- `ui5/goods-movement`: 入出庫申請 List Report / Object Page
-- `ui5/approval-inbox`: 自分の承認対象 List Report / 承認 Object Page
-- `ui5/approval-request`: 承認ルート選択・申請 List Report / Object Page
-- `ui5/approval-route`: 承認ルート保守 List Report / Object Page
+- `src/001_goods/data`: アドオンテーブル
+- `src/001_goods/core`: 承認状態遷移、コールバック契約
+- `src/001_goods/goods`: SAP標準入出庫伝票登録アダプタ
+- `src/001_goods/rap`: CDS、behavior definition、behavior implementation
+- `src/001_goods/ui`: metadata extension、service definition/binding
+- `src/001_goods/ui5/goods-movement`: 入出庫申請 List Report / Object Page
+- `src/001_goods/ui5/approval-inbox`: 自分の承認対象 List Report / 承認 Object Page
+- `src/001_goods/ui5/approval-request`: 承認ルート選択・申請 List Report / Object Page
+- `src/001_goods/ui5/approval-route`: 承認ルート保守 List Report / Object Page
+- `src/002_value_help/cds`: 検索ヘルプ用クラシック CDS View のサンプル
 
 ## 推奨パッケージ
 
 abapGitのルートパッケージを `ZSA_SAMPLE` とした場合、フォルダロジック
 `PREFIX` により次のサブパッケージを使用する。
 
-- `ZSA_SAMPLE_CORE`
-- `ZSA_SAMPLE_DATA`
-- `ZSA_SAMPLE_GOODS`
-- `ZSA_SAMPLE_RAP`
-- `ZSA_SAMPLE_UI`
+- `ZSA_SAMPLE_001_GOODS`
+- `ZSA_SAMPLE_001_GOODS_CORE`
+- `ZSA_SAMPLE_001_GOODS_DATA`
+- `ZSA_SAMPLE_001_GOODS_GOODS`
+- `ZSA_SAMPLE_001_GOODS_RAP`
+- `ZSA_SAMPLE_001_GOODS_UI`
+- `ZSA_SAMPLE_002_VALUE_HELP`
+- `ZSA_SAMPLE_002_VALUE_HELP_CDS`
+
+`PREFIX` ではフォルダ階層がサブパッケージ階層に対応する。初回Pull時は
+abapGitにこれらのサブパッケージを作成させる。
 
 ## 導入順
 
