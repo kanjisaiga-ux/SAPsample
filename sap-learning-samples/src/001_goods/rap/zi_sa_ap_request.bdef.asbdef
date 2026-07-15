@@ -1,15 +1,22 @@
 managed implementation in class ZBP_I_SA_AP_REQUEST unique;
 strict ( 2 );
+with draft;
 
 define behavior for ZI_SA_AP_REQUEST alias Request
 persistent table zsa_ap_req
-lock master
+draft table zsa_ap_req_d
+lock master total etag LocalLastChangedAt
 etag master LocalLastChangedAt
 authorization master ( global, instance )
 {
   create;
   update ( features : instance );
   delete ( features : instance );
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare { validation validateRequest; }
 
   field ( numbering : managed, readonly ) RequestUUID;
   field ( readonly ) RequestNo, Status, CurrentSequence, RequesterUser,
@@ -18,7 +25,7 @@ authorization master ( global, instance )
                      LocalLastChangedAt, LastChangedAt;
   field ( mandatory ) SourceUUID, FunctionID, ApprovalPattern, CallbackID, Subject;
 
-  association _WorkItem { create; }
+  association _WorkItem { create; with draft; }
 
   determination initialize on modify { create; }
   determination proposeRoute on modify { create; field FunctionID, ApprovalPattern; }
@@ -52,6 +59,7 @@ authorization master ( global, instance )
 
 define behavior for ZI_SA_AP_WORK alias WorkItem
 persistent table zsa_ap_work
+draft table zsa_ap_work_d
 lock dependent by _Request
 authorization dependent by _Request
 {
@@ -60,7 +68,7 @@ authorization dependent by _Request
   field ( numbering : managed, readonly ) WorkUUID;
   field ( readonly ) RequestUUID, Status, ActionAt, LocalLastChangedAt;
   field ( mandatory ) SequenceNo, ApproverUser;
-  association _Request;
+  association _Request { with draft; }
 
   mapping for zsa_ap_work {
     WorkUUID          = work_uuid;

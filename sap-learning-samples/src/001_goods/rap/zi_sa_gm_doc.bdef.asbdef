@@ -1,15 +1,22 @@
 managed implementation in class ZBP_I_SA_GM_DOC unique;
 strict ( 2 );
+with draft;
 
 define behavior for ZI_SA_GM_DOC alias Document
 persistent table zsa_gm_hdr
-lock master
+draft table zsa_gm_hdr_d
+lock master total etag LocalLastChangedAt
 etag master LocalLastChangedAt
 authorization master ( global, instance )
 {
   create;
   update ( features : instance );
   delete ( features : instance );
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare { validation validateHeader; }
 
   field ( numbering : managed, readonly ) DocumentUUID;
   field ( readonly ) DocumentNo, Status, ApprovalUUID,
@@ -18,7 +25,7 @@ authorization master ( global, instance )
                      LocalLastChangedAt, LastChangedAt;
   field ( mandatory ) ProcessType, PostingDate, DocumentDate;
 
-  association _Item { create; }
+  association _Item { create; with draft; }
 
   determination initialize on modify { create; }
   validation validateHeader on save { create; update; }
@@ -47,6 +54,7 @@ authorization master ( global, instance )
 
 define behavior for ZI_SA_GM_ITEM alias Item
 persistent table zsa_gm_itm
+draft table zsa_gm_itm_d
 lock dependent by _Document
 authorization dependent by _Document
 {
@@ -55,7 +63,7 @@ authorization dependent by _Document
   field ( numbering : managed, readonly ) ItemUUID;
   field ( readonly ) DocumentUUID, LocalLastChangedAt;
   field ( mandatory ) ItemNo, Material, Plant, GoodsMovementType, Quantity, BaseUnit;
-  association _Document;
+  association _Document { with draft; }
   validation validateItem on save { create; update; }
 
   mapping for zsa_gm_itm {

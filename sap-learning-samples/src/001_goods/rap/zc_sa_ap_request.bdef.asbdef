@@ -1,5 +1,6 @@
 projection;
 strict ( 2 );
+use draft;
 define behavior for ZC_SA_AP_REQUEST alias Request {
   use create;
   use update;
@@ -7,10 +8,15 @@ define behavior for ZC_SA_AP_REQUEST alias Request {
   use action Submit;
   use action Approve;
   use action Reject;
-  use association _WorkItem;
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+  use association _WorkItem { create; with draft; }
 }
 define behavior for ZC_SA_AP_WORK alias WorkItem {
   use update;
   use delete;
-  use association _Request;
+  use association _Request { with draft; }
 }
