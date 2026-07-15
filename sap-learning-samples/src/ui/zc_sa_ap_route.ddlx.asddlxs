@@ -7,34 +7,41 @@
 annotate view ZC_SA_AP_ROUTE with
 {
   @UI.facet: [
-    { id: 'Route', type: #IDENTIFICATION_REFERENCE, label: 'Approval Route', position: 10 }
+    { id: 'Route', type: #IDENTIFICATION_REFERENCE, label: '承認ルート', position: 10 }
   ]
-  @UI.lineItem: [ { position: 10 } ]
-  @UI.identification: [ { position: 10 } ]
+  @UI.lineItem: [ { position: 10, label: '承認ルートID' } ]
+  @UI.identification: [ { position: 10, label: '承認ルートID' } ]
   @UI.selectionField: [ { position: 10 } ]
   RouteID;
-  @UI.lineItem: [ { position: 20 } ]
-  @UI.identification: [ { position: 20 } ]
+  @UI.lineItem: [ { position: 20, label: '機能ID' } ]
+  @UI.identification: [ { position: 20, label: '機能ID' } ]
   @UI.selectionField: [ { position: 20 } ]
   FunctionID;
-  @UI.lineItem: [ { position: 30 } ]
-  @UI.identification: [ { position: 30 } ]
+  @UI.lineItem: [ { position: 30, label: '承認パターン' } ]
+  @UI.identification: [ { position: 30, label: '承認パターン' } ]
   ApprovalPattern;
-  @UI.lineItem: [ { position: 40 } ]
-  @UI.identification: [ { position: 40 } ]
+  @UI.lineItem: [ { position: 40, label: '申請者ユーザーID' } ]
+  @UI.identification: [ { position: 40, label: '申請者ユーザーID' } ]
   RequesterUser;
-  @UI.lineItem: [ { position: 50 } ]
-  @UI.identification: [ { position: 50 } ]
+  @UI.lineItem: [ { position: 50, label: '申請者原価センタ' } ]
+  @UI.identification: [ { position: 50, label: '申請者原価センタ' } ]
   RequesterCostCenter;
-  @UI.lineItem: [ { position: 60 } ]
-  @UI.identification: [ { position: 60 } ]
+  @UI.lineItem: [ { position: 60, label: '承認順' } ]
+  @UI.identification: [ { position: 60, label: '承認順' } ]
   SequenceNo;
-  @UI.lineItem: [ { position: 70 } ]
-  @UI.identification: [ { position: 70 } ]
+  @UI.lineItem: [ { position: 70, label: '承認者ユーザーID' } ]
+  @UI.identification: [ { position: 70, label: '承認者ユーザーID' } ]
   ApproverUser;
-  @UI.lineItem: [ { position: 80 } ]
-  @UI.identification: [ { position: 80 } ]
+  @UI.lineItem: [ { position: 80, label: '承認者名' } ]
+  @UI.identification: [ { position: 80, label: '承認者名' } ]
   ApproverName;
-  @UI.lineItem: [ { position: 90 } ]
+  @UI.lineItem: [ { position: 90, label: '有効フラグ' } ]
+  @UI.identification: [ { position: 90, label: '有効フラグ' } ]
   IsActive;
+  @UI.lineItem: [ { position: 100, label: '有効開始日' } ]
+  @UI.identification: [ { position: 100, label: '有効開始日' } ]
+  ValidFrom;
+  @UI.lineItem: [ { position: 110, label: '有効終了日' } ]
+  @UI.identification: [ { position: 110, label: '有効終了日' } ]
+  ValidTo;
 }
