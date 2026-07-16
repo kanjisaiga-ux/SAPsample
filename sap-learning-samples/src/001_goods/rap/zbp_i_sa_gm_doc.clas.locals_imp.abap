@@ -108,10 +108,10 @@ CLASS lhc_document IMPLEMENTATION.
           ( %cid = |APR{ sy-tabix }|
             SourceUUID = document-DocumentUUID
             FunctionID = 'GOODS_MOVEMENT'
-            ApprovalPattern = keys[ KEY entity %tky = document-%tky ]-%param-ApprovalPattern
+            ApprovalPattern = keys[ KEY entity DocumentUUID = document-DocumentUUID ]-%param-ApprovalPattern
             CallbackID = 'POST_GM'
             Subject = |入出庫申請 { document-DocumentNo }|
-            RequestNote = keys[ KEY entity %tky = document-%tky ]-%param-RequestNote ) )
+            RequestNote = keys[ KEY entity DocumentUUID = document-DocumentUUID ]-%param-RequestNote ) )
         MAPPED DATA(mapped_request)
         FAILED DATA(request_failed)
         REPORTED DATA(request_reported).
