@@ -32,8 +32,6 @@ annotate view ZC_SA_GM_DOC with
   @UI.selectionField: [ { position: 30 } ]
   Status;
 
-  ApprovalUUID;
-
   @UI.identification: [ { position: 40 } ]
   PostingDate;
   @UI.identification: [ { position: 50 } ]
