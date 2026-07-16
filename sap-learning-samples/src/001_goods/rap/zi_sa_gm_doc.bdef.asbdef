@@ -23,7 +23,6 @@ authorization master ( global, instance )
                      MaterialDocument, MaterialDocumentYear, PostingMessage,
                      CreatedBy, CreatedAt, LocalLastChangedBy,
                      LocalLastChangedAt, LastChangedAt;
-  field ( readonly : update ) Status, ApprovalUUID;
   field ( mandatory ) ProcessType, PostingDate, DocumentDate;
 
   association _Item { create; with draft; }
