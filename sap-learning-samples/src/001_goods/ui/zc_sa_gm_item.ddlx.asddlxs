@@ -1,24 +1,47 @@
 @Metadata.layer: #CUSTOMER
 annotate view ZC_SA_GM_ITEM with
 {
+  @UI.facet: [ {
+    id: 'ItemDetails',
+    type: #IDENTIFICATION_REFERENCE,
+    label: '明細情報',
+    position: 10
+  } ]
+
   @UI.lineItem: [ { position: 10 } ]
+  @UI.identification: [ { position: 10 } ]
   ItemNo;
   @UI.lineItem: [ { position: 20 } ]
+  @UI.identification: [ { position: 20 } ]
   Material;
   @UI.lineItem: [ { position: 30 } ]
+  @UI.identification: [ { position: 30 } ]
   Plant;
   @UI.lineItem: [ { position: 40 } ]
+  @UI.identification: [ { position: 40 } ]
   StorageLocation;
   @UI.lineItem: [ { position: 50 } ]
+  @UI.identification: [ { position: 50 } ]
   GoodsMovementType;
   @UI.lineItem: [ { position: 60 } ]
+  @UI.identification: [ { position: 60 } ]
   Quantity;
   @UI.lineItem: [ { position: 70 } ]
+  @UI.identification: [ { position: 70 } ]
   BaseUnit;
   @UI.lineItem: [ { position: 80 } ]
+  @UI.identification: [ { position: 80 } ]
   PurchaseOrder;
   @UI.lineItem: [ { position: 90 } ]
+  @UI.identification: [ { position: 90 } ]
   PurchaseOrderItem;
   @UI.lineItem: [ { position: 100 } ]
+  @UI.identification: [ { position: 100 } ]
   CostCenter;
+  @UI.lineItem: [ { position: 110 } ]
+  @UI.identification: [ { position: 110 } ]
+  OrderID;
+  @UI.lineItem: [ { position: 120 } ]
+  @UI.identification: [ { position: 120 } ]
+  ItemText;
 }
