@@ -19,10 +19,11 @@ authorization master ( global, instance )
   draft determine action Prepare { validation validateRequest; }
 
   field ( numbering : managed, readonly ) RequestUUID;
-  field ( readonly ) RequestNo, Status, CurrentSequence, RequesterUser,
+  field ( readonly ) RequestNo, CurrentSequence, RequesterUser,
                      RequesterCostCenter, SubmittedAt, CompletedAt,
                      CreatedBy, CreatedAt, LocalLastChangedBy,
                      LocalLastChangedAt, LastChangedAt;
+  field ( readonly : update ) Status;
   field ( mandatory ) SourceUUID, FunctionID, ApprovalPattern, CallbackID, Subject;
 
   association _WorkItem { create; with draft; }

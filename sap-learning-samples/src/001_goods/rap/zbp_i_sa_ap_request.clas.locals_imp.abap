@@ -29,7 +29,8 @@ CLASS lhc_request IMPLEMENTATION.
     READ ENTITIES OF zi_sa_ap_request IN LOCAL MODE
       ENTITY Request FIELDS ( RequesterUser Status ) WITH CORRESPONDING #( keys )
       RESULT DATA(requests).
-    DATA(current_user) = cl_abap_context_info=>get_user_technical_name( ).
+    DATA current_user TYPE syuname.
+    current_user = cl_abap_context_info=>get_user_technical_name( ).
     result = VALUE #( FOR request IN requests
       ( %tky = request-%tky
         %update = COND #(
@@ -47,7 +48,8 @@ CLASS lhc_request IMPLEMENTATION.
     READ ENTITIES OF zi_sa_ap_request IN LOCAL MODE
       ENTITY Request FIELDS ( Status RequesterUser ) WITH CORRESPONDING #( keys )
       RESULT DATA(requests).
-    DATA(current_user) = cl_abap_context_info=>get_user_technical_name( ).
+    DATA current_user TYPE syuname.
+    current_user = cl_abap_context_info=>get_user_technical_name( ).
     result = VALUE #( FOR request IN requests
       ( %tky = request-%tky
         %features-%update = COND #(
@@ -162,6 +164,7 @@ CLASS lhc_request IMPLEMENTATION.
       ENTITY Request ALL FIELDS WITH CORRESPONDING #( keys ) RESULT DATA(requests)
       ENTITY Request BY \_WorkItem ALL FIELDS WITH CORRESPONDING #( keys )
       RESULT DATA(work_items).
+    DATA gm_failed TYPE RESPONSE FOR FAILED EARLY zi_sa_gm_doc.
     LOOP AT requests INTO DATA(request).
       IF zcl_sa_ap_state=>can_submit( request-Status ) = abap_false.
         APPEND VALUE #( %tky = request-%tky ) TO failed-request.
@@ -208,12 +211,13 @@ CLASS lhc_request IMPLEMENTATION.
         REPORTED DATA(update_reported).
 
       IF request-FunctionID = 'GOODS_MOVEMENT'.
+        CLEAR gm_failed.
         MODIFY ENTITIES OF zi_sa_gm_doc
           ENTITY Document UPDATE FIELDS ( Status ApprovalUUID )
           WITH VALUE #( ( DocumentUUID = request-SourceUUID
                           Status = 'SUBMITTED'
                           ApprovalUUID = request-RequestUUID ) )
-          FAILED DATA(gm_failed).
+          FAILED gm_failed.
         IF gm_failed IS NOT INITIAL.
           APPEND VALUE #( %tky = request-%tky ) TO failed-request.
         ENDIF.
@@ -231,7 +235,8 @@ CLASS lhc_request IMPLEMENTATION.
       ENTITY Request ALL FIELDS WITH CORRESPONDING #( keys ) RESULT DATA(requests)
       ENTITY Request BY \_WorkItem ALL FIELDS WITH CORRESPONDING #( keys )
       RESULT DATA(work_items).
-    DATA(current_user) = cl_abap_context_info=>get_user_technical_name( ).
+    DATA current_user TYPE syuname.
+    current_user = cl_abap_context_info=>get_user_technical_name( ).
 
     LOOP AT requests INTO DATA(request).
       DATA(transition) = zcl_sa_ap_state=>approve(
@@ -286,7 +291,7 @@ CLASS lhc_request IMPLEMENTATION.
             ActionComment = COND #(
               WHEN work-ApproverUser = current_user AND
                    work-SequenceNo = request-CurrentSequence
-              THEN keys[ KEY entity %tky = request-%tky ]-%param-ApprovalComment
+              THEN keys[ KEY entity RequestUUID = request-RequestUUID ]-%param-ApprovalComment
               ELSE work-ActionComment ) ) ).
     ENDLOOP.
     READ ENTITIES OF zi_sa_ap_request IN LOCAL MODE
@@ -299,7 +304,8 @@ CLASS lhc_request IMPLEMENTATION.
       ENTITY Request ALL FIELDS WITH CORRESPONDING #( keys ) RESULT DATA(requests)
       ENTITY Request BY \_WorkItem ALL FIELDS WITH CORRESPONDING #( keys )
       RESULT DATA(work_items).
-    DATA(current_user) = cl_abap_context_info=>get_user_technical_name( ).
+    DATA current_user TYPE syuname.
+    current_user = cl_abap_context_info=>get_user_technical_name( ).
 
     LOOP AT requests INTO DATA(request).
       DATA(transition) = zcl_sa_ap_state=>reject(
@@ -322,7 +328,7 @@ CLASS lhc_request IMPLEMENTATION.
             ActionComment = COND #(
               WHEN work-ApproverUser = current_user AND
                    work-SequenceNo = request-CurrentSequence
-              THEN keys[ KEY entity %tky = request-%tky ]-%param-ApprovalComment
+              THEN keys[ KEY entity RequestUUID = request-RequestUUID ]-%param-ApprovalComment
               ELSE work-ActionComment ) ) ).
 
       IF request-FunctionID = 'GOODS_MOVEMENT'.
