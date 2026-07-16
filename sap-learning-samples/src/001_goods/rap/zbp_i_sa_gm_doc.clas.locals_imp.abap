@@ -101,14 +101,21 @@ CLASS lhc_document IMPLEMENTATION.
     LOOP AT documents INTO DATA(document).
       IF document-Status <> 'DRAFT' AND document-Status <> 'REJECTED'.
         APPEND VALUE #( %tky = document-%tky ) TO failed-document.
+        APPEND VALUE #(
+          %tky = document-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text = 'Approval can only be requested for a draft or rejected document.' ) )
+          TO reported-document.
         CONTINUE.
       ENDIF.
 
+      DATA(request_cid) = |APR{ sy-tabix }|.
       MODIFY ENTITIES OF zi_sa_ap_request
         ENTITY Request CREATE FIELDS (
           SourceUUID FunctionID ApprovalPattern CallbackID Subject RequestNote )
         WITH VALUE #(
-          ( %cid = |APR{ sy-tabix }|
+          ( %cid = request_cid
             SourceUUID = document-DocumentUUID
             FunctionID = 'GOODS_MOVEMENT'
             ApprovalPattern = keys[ KEY entity DocumentUUID = document-DocumentUUID ]-%param-ApprovalPattern
@@ -118,16 +125,44 @@ CLASS lhc_document IMPLEMENTATION.
         MAPPED DATA(mapped_request)
         FAILED DATA(request_failed)
         REPORTED DATA(request_reported).
-      IF request_failed IS NOT INITIAL.
+      IF request_failed IS NOT INITIAL OR mapped_request-request IS INITIAL.
         APPEND VALUE #( %tky = document-%tky ) TO failed-document.
+        APPEND VALUE #(
+          %tky = document-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text = 'The approval request could not be created. Check the approval route and required data.' ) )
+          TO reported-document.
         CONTINUE.
       ENDIF.
 
-      DATA(request_uuid) = mapped_request-request[ 1 ]-RequestUUID.
+      READ TABLE mapped_request-request ASSIGNING FIELD-SYMBOL(<mapped_request>)
+        WITH KEY %cid = request_cid.
+      IF sy-subrc <> 0 OR <mapped_request>-RequestUUID IS INITIAL.
+        APPEND VALUE #( %tky = document-%tky ) TO failed-document.
+        APPEND VALUE #(
+          %tky = document-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text = 'The approval request was not assigned an ID.' ) )
+          TO reported-document.
+        CONTINUE.
+      ENDIF.
+
       MODIFY ENTITIES OF zi_sa_gm_doc IN LOCAL MODE
         ENTITY Document UPDATE FIELDS ( ApprovalUUID )
-        WITH VALUE #( ( %tky = document-%tky ApprovalUUID = request_uuid ) ).
-      reported = CORRESPONDING #( DEEP request_reported ).
+        WITH VALUE #( ( %tky = document-%tky ApprovalUUID = <mapped_request>-RequestUUID ) )
+        FAILED DATA(gm_failed)
+        REPORTED DATA(gm_reported).
+      IF gm_failed IS NOT INITIAL.
+        APPEND VALUE #( %tky = document-%tky ) TO failed-document.
+        APPEND VALUE #(
+          %tky = document-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text = 'The approval request was created, but could not be linked to the goods movement.' ) )
+          TO reported-document.
+      ENDIF.
     ENDLOOP.
 
     READ ENTITIES OF zi_sa_gm_doc IN LOCAL MODE

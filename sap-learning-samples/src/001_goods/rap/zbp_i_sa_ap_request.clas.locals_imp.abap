@@ -110,6 +110,13 @@ CLASS lhc_request IMPLEMENTATION.
         INTO TABLE @DATA(route_candidates)
         UP TO 1 ROWS.
       IF route_candidates IS INITIAL.
+        APPEND VALUE #( %tky = request-%tky ) TO failed-request.
+        APPEND VALUE #(
+          %tky = request-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text = 'No active approval route was found for the selected approval pattern.' ) )
+          TO reported-request.
         CONTINUE.
       ENDIF.
       DATA(route_id) = route_candidates[ 1 ]-route_id.
@@ -122,6 +129,16 @@ CLASS lhc_request IMPLEMENTATION.
           AND valid_to >= @sy-datum
         ORDER BY sequence_no, approver_user
         INTO TABLE @DATA(route_steps).
+      IF route_steps IS INITIAL.
+        APPEND VALUE #( %tky = request-%tky ) TO failed-request.
+        APPEND VALUE #(
+          %tky = request-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text = 'The selected approval route has no active approver steps.' ) )
+          TO reported-request.
+        CONTINUE.
+      ENDIF.
 
       MODIFY ENTITIES OF zi_sa_ap_request IN LOCAL MODE
         ENTITY Request CREATE BY \_WorkItem
@@ -134,8 +151,18 @@ CLASS lhc_request IMPLEMENTATION.
                 ApproverUser = step-approver_user
                 ApproverName = step-approver_name
                 Status = zcl_sa_ap_state=>work_status-waiting ) ) ) )
+        FAILED DATA(create_failed)
         REPORTED DATA(create_reported).
-      reported = CORRESPONDING #( DEEP create_reported ).
+      IF create_failed IS NOT INITIAL.
+        APPEND VALUE #( %tky = request-%tky ) TO failed-request.
+        APPEND VALUE #(
+          %tky = request-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text = 'Approver steps could not be created for the selected approval route.' ) )
+          TO reported-request.
+      ENDIF.
+      APPEND LINES OF create_reported-request TO reported-request.
     ENDLOOP.
   ENDMETHOD.
 

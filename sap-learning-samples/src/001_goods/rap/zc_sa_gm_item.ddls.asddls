@@ -4,7 +4,11 @@
 define view entity ZC_SA_GM_ITEM
   as projection on ZI_SA_GM_ITEM
 {
+  @ObjectModel.readOnly: true
+  @UI.hidden: true
   key ItemUUID,
+      @ObjectModel.readOnly: true
+      @UI.hidden: true
       DocumentUUID,
       ItemNo,
       Material,
