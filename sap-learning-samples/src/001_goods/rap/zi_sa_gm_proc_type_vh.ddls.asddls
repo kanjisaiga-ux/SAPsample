@@ -1,5 +1,6 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Goods movement process type value help'
+@Metadata.ignorePropagatedAnnotations: true
 @ObjectModel.dataCategory: #VALUE_HELP
 @ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZI_SA_GM_PROC_TYPE_VH
