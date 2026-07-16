@@ -30,10 +30,8 @@ annotate view ZC_SA_GM_DOC with
   @UI.lineItem: [ { position: 30 } ]
   @UI.identification: [ { position: 30 } ]
   @UI.selectionField: [ { position: 30 } ]
-  @UI.readOnly: true
   Status;
 
-  @UI.readOnly: true
   ApprovalUUID;
 
   @UI.identification: [ { position: 40 } ]
