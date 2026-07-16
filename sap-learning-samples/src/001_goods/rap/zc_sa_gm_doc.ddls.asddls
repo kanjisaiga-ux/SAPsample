@@ -7,7 +7,6 @@ define root view entity ZC_SA_GM_DOC
   provider contract transactional_query
   as projection on ZI_SA_GM_DOC
 {
-  @ObjectModel.readOnly: true
   @UI.hidden: true
   key DocumentUUID,
       @Search.defaultSearchElement: true
