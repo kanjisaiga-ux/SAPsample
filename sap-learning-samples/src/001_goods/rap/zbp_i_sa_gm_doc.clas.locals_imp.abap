@@ -23,15 +23,17 @@ CLASS lhc_document IMPLEMENTATION.
     READ ENTITIES OF zi_sa_gm_doc IN LOCAL MODE
       ENTITY Document FIELDS ( CreatedBy Status ) WITH CORRESPONDING #( keys )
       RESULT DATA(documents).
-    DATA(current_user) = cl_abap_context_info=>get_user_technical_name( ).
+    DATA current_user TYPE syuname.
+    current_user = cl_abap_context_info=>get_user_technical_name( ).
     result = VALUE #( FOR document IN documents
       ( %tky = document-%tky
         %update = COND #(
-          WHEN document-CreatedBy = current_user AND
+          WHEN ( document-CreatedBy IS INITIAL OR document-CreatedBy = current_user ) AND
                ( document-Status = 'DRAFT' OR document-Status = 'REJECTED' )
           THEN if_abap_behv=>auth-allowed ELSE if_abap_behv=>auth-unauthorized )
         %delete = COND #(
-          WHEN document-CreatedBy = current_user AND document-Status = 'DRAFT'
+          WHEN ( document-CreatedBy IS INITIAL OR document-CreatedBy = current_user ) AND
+               document-Status = 'DRAFT'
           THEN if_abap_behv=>auth-allowed ELSE if_abap_behv=>auth-unauthorized ) ) ).
   ENDMETHOD.
 
@@ -42,7 +44,8 @@ CLASS lhc_document IMPLEMENTATION.
     result = VALUE #( FOR document IN documents
       ( %tky = document-%tky
         %features-%update = COND #(
-          WHEN document-Status = 'DRAFT' OR document-Status = 'REJECTED'
+          WHEN document-Status IS INITIAL OR
+               document-Status = 'DRAFT' OR document-Status = 'REJECTED'
           THEN if_abap_behv=>fc-o-enabled ELSE if_abap_behv=>fc-o-disabled )
         %features-%delete = COND #(
           WHEN document-Status = 'DRAFT'

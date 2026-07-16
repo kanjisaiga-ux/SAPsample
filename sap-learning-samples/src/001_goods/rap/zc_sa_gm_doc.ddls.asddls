@@ -10,6 +10,7 @@ define root view entity ZC_SA_GM_DOC
   key DocumentUUID,
       @Search.defaultSearchElement: true
       DocumentNo,
+      @Consumption.valueHelpDefinition: [{ entity: { name: 'ZI_SA_GM_PROC_TYPE_VH', element: 'ProcessType' }, useForValidation: true }]
       ProcessType,
       Status,
       PostingDate,
